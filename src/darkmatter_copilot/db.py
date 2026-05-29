@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS projects (
     name                    TEXT NOT NULL,
     project_type            TEXT NOT NULL CHECK (project_type IN (
                                 'landing_page', 'saas_marketing', 'portfolio',
-                                'ecommerce', 'redesign', 'other'
+                                'ecommerce', 'redesign', 'corporate_site', 'other'
                             )),
     scope                   TEXT,
     price                   INTEGER,

@@ -32,6 +32,7 @@ class ProjectType(str, Enum):
     portfolio = "portfolio"
     ecommerce = "ecommerce"
     redesign = "redesign"
+    corporate_site = "corporate_site"
     other = "other"
 
 
