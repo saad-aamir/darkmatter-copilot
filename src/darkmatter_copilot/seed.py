@@ -9,7 +9,6 @@ from contextlib import closing
 
 from darkmatter_copilot.db import get_connection, init_db
 
-
 CLIENTS = [
     {
         "name": "Sussex Light Photography",
@@ -38,14 +37,14 @@ CLIENTS = [
 # Note: client_id is filled in after clients are inserted (we need their auto-generated IDs).
 PROJECTS = [
     {
-        "client_name": "Sussex Light Photography",   # used to look up client_id after insert
+        "client_name": "Sussex Light Photography",  # used to look up client_id after insert
         "name": "Sussex Light Photography — portfolio site",
         "project_type": "portfolio",
         "scope": (
             "Single-page portfolio site to establish online presence: scrollable "
             "gallery, testimonials, pricing packages, about, and contact section."
         ),
-        "price": 0,                                   # free of cost (family rate)
+        "price": 0,  # free of cost (family rate)
         "paid_at": None,
         "started_at": "2026-03-01",
         "deadline": None,
@@ -63,7 +62,7 @@ PROJECTS = [
             "bookable apartments. Sections for stays, comforts, guest reviews, "
             "rates, and a direct inquiry form (no third-party platform fees)."
         ),
-        "price": 50000,                               # PKR
+        "price": 50000,  # PKR
         "paid_at": "2026-05-31",
         "started_at": "2026-05-01",
         "deadline": None,
@@ -82,7 +81,7 @@ PROJECTS = [
             "chatbot widget for visitor queries, live market data ticker, newsletter "
             "subscription, and content strategy reflecting partner-led positioning."
         ),
-        "price": 400,                                 # GBP
+        "price": 400,  # GBP
         "paid_at": "2026-05-31",
         "started_at": "2026-04-01",
         "deadline": None,
@@ -111,7 +110,7 @@ CASE_STUDIES = [
             "clients. Site has been live since April 2026."
         ),
         "tech_stack": "Next.js,Tailwind CSS,Vercel",
-        "is_published": 1,                            # shown on darkmatterstudio.org
+        "is_published": 1,  # shown on darkmatterstudio.org
         "published_at": "2026-04-30",
     },
     {
@@ -171,7 +170,7 @@ def wipe_database(conn) -> None:
     conn.execute("DELETE FROM projects")
     conn.execute("DELETE FROM leads")
     conn.execute("DELETE FROM clients")
-    
+
     # Reset auto-increment counters so new rows start at id=1 again.
     # sqlite_sequence is SQLite's internal table tracking AUTOINCREMENT state.
     conn.execute("DELETE FROM sqlite_sequence")
@@ -180,11 +179,11 @@ def wipe_database(conn) -> None:
 def seed() -> None:
     """Wipe and re-seed the database with real studio data."""
     init_db()  # Ensure tables exist
-    
+
     with closing(get_connection()) as conn:
         with conn:  # Transaction: commits on success, rolls back on exception
             wipe_database(conn)
-            
+
             # Insert clients and track their new IDs by name (for FK lookups below)
             client_ids = {}
             for client in CLIENTS:
@@ -202,7 +201,7 @@ def seed() -> None:
                     ),
                 )
                 client_ids[client["name"]] = cursor.lastrowid
-            
+
             # Insert projects, looking up client_id by name
             project_ids = {}
             for project in PROJECTS:
@@ -230,7 +229,7 @@ def seed() -> None:
                     ),
                 )
                 project_ids[project["name"]] = cursor.lastrowid
-            
+
             # Insert case studies, looking up project_id by name
             for case_study in CASE_STUDIES:
                 conn.execute(
@@ -251,7 +250,7 @@ def seed() -> None:
                         case_study["published_at"],
                     ),
                 )
-    
+
     print("Database seeded successfully:")
     print(f"  - {len(CLIENTS)} clients")
     print(f"  - {len(PROJECTS)} projects")

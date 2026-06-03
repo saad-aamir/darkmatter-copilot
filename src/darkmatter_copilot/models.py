@@ -17,6 +17,7 @@ def _to_isoformat_utc(value: datetime | None) -> str | None:
 
 # ===== Enums =====
 
+
 class LeadSource(str, Enum):
     referral = "referral"
     cold_outbound = "cold_outbound"
@@ -62,8 +63,10 @@ class ProposalStatus(str, Enum):
 
 # ===== Lead models =====
 
+
 class LeadBase(BaseModel):
     """Shared fields for a lead."""
+
     company: str
     contact_name: str | None = None
     contact_email: EmailStr | None = None
@@ -79,11 +82,13 @@ class LeadBase(BaseModel):
 
 class LeadCreate(LeadBase):
     """Input shape for creating a new lead."""
+
     pass
 
 
 class LeadRead(LeadBase):
     """A lead as returned from the database."""
+
     id: int
     created_at: datetime
     last_contact_at: datetime | None = None
@@ -95,8 +100,10 @@ class LeadRead(LeadBase):
 
 # ===== Client models =====
 
+
 class ClientBase(BaseModel):
     """Shared fields for a client."""
+
     name: str
     contact_name: str | None = None
     contact_email: EmailStr | None = None
@@ -107,11 +114,13 @@ class ClientBase(BaseModel):
 
 class ClientCreate(ClientBase):
     """Input shape for creating a new client."""
+
     pass
 
 
 class ClientRead(ClientBase):
     """A client as returned from the database."""
+
     id: int
     became_client_at: datetime
 
@@ -122,8 +131,10 @@ class ClientRead(ClientBase):
 
 # ===== Project models =====
 
+
 class ProjectBase(BaseModel):
     """Shared fields for a project."""
+
     client_id: int
     name: str
     project_type: ProjectType
@@ -141,11 +152,13 @@ class ProjectBase(BaseModel):
 
 class ProjectCreate(ProjectBase):
     """Input shape for creating a new project."""
+
     pass
 
 
 class ProjectRead(ProjectBase):
     """A project as returned from the database."""
+
     id: int
     created_at: datetime
 
@@ -163,8 +176,10 @@ class ProjectRead(ProjectBase):
 
 # ===== Case study models =====
 
+
 class CaseStudyBase(BaseModel):
     """Shared fields for a case study."""
+
     project_id: int
     problem: str
     approach: str
@@ -176,11 +191,13 @@ class CaseStudyBase(BaseModel):
 
 class CaseStudyCreate(CaseStudyBase):
     """Input shape for creating a new case study."""
+
     pass
 
 
 class CaseStudyRead(CaseStudyBase):
     """A case study as returned from the database."""
+
     id: int
     created_at: datetime
 
@@ -191,8 +208,10 @@ class CaseStudyRead(CaseStudyBase):
 
 # ===== Proposal models =====
 
+
 class ProposalBase(BaseModel):
     """Shared fields for a proposal."""
+
     lead_id: int
     title: str
     body: str
@@ -203,11 +222,13 @@ class ProposalBase(BaseModel):
 
 class ProposalCreate(ProposalBase):
     """Input shape for creating a new proposal."""
+
     pass
 
 
 class ProposalRead(ProposalBase):
     """A proposal as returned from the database."""
+
     id: int
     sent_at: datetime
     responded_at: datetime | None = None
