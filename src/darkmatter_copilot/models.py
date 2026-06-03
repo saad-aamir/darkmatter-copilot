@@ -1,9 +1,18 @@
 """Pydantic models for Dark Matter Co-Pilot domain objects."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_serializer
+
+
+def _to_isoformat_utc(value: datetime | None) -> str | None:
+    """Serialize datetime as ISO 8601 with UTC timezone (RFC 3339 compliant)."""
+    if value is None:
+        return None
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=timezone.utc)
+    return value.isoformat()
 
 
 # ===== Enums =====
@@ -79,6 +88,10 @@ class LeadRead(LeadBase):
     created_at: datetime
     last_contact_at: datetime | None = None
 
+    @field_serializer("created_at", "last_contact_at", when_used="json")
+    def serialize_datetimes(self, value: datetime | None) -> str | None:
+        return _to_isoformat_utc(value)
+
 
 # ===== Client models =====
 
@@ -101,6 +114,10 @@ class ClientRead(ClientBase):
     """A client as returned from the database."""
     id: int
     became_client_at: datetime
+
+    @field_serializer("became_client_at", when_used="json")
+    def serialize_datetimes(self, value: datetime | None) -> str | None:
+        return _to_isoformat_utc(value)
 
 
 # ===== Project models =====
@@ -132,6 +149,17 @@ class ProjectRead(ProjectBase):
     id: int
     created_at: datetime
 
+    @field_serializer(
+        "created_at",
+        "paid_at",
+        "started_at",
+        "deadline",
+        "completed_at",
+        when_used="json",
+    )
+    def serialize_datetimes(self, value: datetime | None) -> str | None:
+        return _to_isoformat_utc(value)
+
 
 # ===== Case study models =====
 
@@ -156,6 +184,10 @@ class CaseStudyRead(CaseStudyBase):
     id: int
     created_at: datetime
 
+    @field_serializer("created_at", "published_at", when_used="json")
+    def serialize_datetimes(self, value: datetime | None) -> str | None:
+        return _to_isoformat_utc(value)
+
 
 # ===== Proposal models =====
 
@@ -179,3 +211,7 @@ class ProposalRead(ProposalBase):
     id: int
     sent_at: datetime
     responded_at: datetime | None = None
+
+    @field_serializer("sent_at", "responded_at", when_used="json")
+    def serialize_datetimes(self, value: datetime | None) -> str | None:
+        return _to_isoformat_utc(value)
