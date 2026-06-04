@@ -1,6 +1,6 @@
 from mcp.server.fastmcp import FastMCP
 
-from darkmatter_copilot.tools import case_studies, leads, projects
+from darkmatter_copilot.tools import case_studies, leads, projects, clients
 
 mcp = FastMCP("Dark Matter Co-Pilot")
 
@@ -18,6 +18,7 @@ def hello_studio() -> str:
 case_studies.register(mcp)
 leads.register(mcp)
 projects.register(mcp)
+clients.register(mcp)
 
 if __name__ == "__main__":
     mcp.run()

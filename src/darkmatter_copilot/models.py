@@ -123,6 +123,7 @@ class ClientRead(ClientBase):
 
     id: int
     became_client_at: datetime
+    project_count: int = 0
 
     @field_serializer("became_client_at", when_used="json")
     def serialize_datetimes(self, value: datetime | None) -> str | None:
