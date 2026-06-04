@@ -72,3 +72,26 @@ def register(mcp: FastMCP) -> None:
                 leads.append(lead)
 
             return leads
+
+    @mcp.tool()
+    def update_lead_status(lead_id: int, status: LeadStatus) -> LeadRead:
+        """Update the status of a lead.
+
+        Call this tool when the user wants to update the status of a particular lead."""
+
+        with closing(get_connection()) as conn:
+            with conn:
+                cursor = conn.execute(
+                    "UPDATE leads SET status = ?, last_contact_at = CURRENT_TIMESTAMP WHERE id = ?",
+                    (status, lead_id),
+                )
+
+                row_count = cursor.rowcount
+
+                if row_count == 0:
+                    raise ValueError(f"No lead found with id {lead_id}")
+
+                updated_row = conn.execute("SELECT * FROM leads WHERE id =?", (lead_id,)).fetchone()
+
+            updated_lead = LeadRead.model_validate(dict(updated_row))
+            return updated_lead
