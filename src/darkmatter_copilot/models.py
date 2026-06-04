@@ -161,6 +161,7 @@ class ProjectRead(ProjectBase):
 
     id: int
     created_at: datetime
+    client_name: str | None = None
 
     @field_serializer(
         "created_at",
