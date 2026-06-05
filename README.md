@@ -75,8 +75,6 @@ A few patterns I leaned into:
 * **Transactions on writes only.** Reads use `with closing(get_connection())`. Writes wrap the work in `with conn:` so it's atomic.
 * **Re-fetch after writes.** Instead of constructing the return value in Python after an INSERT, I re-SELECT the row and return that. Means defaults applied by SQLite (like `status = 'new'`) are reflected accurately.
 
-Pydantic models are the single source of truth. The same model that validates DB rows also defines what fields Claude sees when calling a tool, and how the response gets serialized back out. This avoids the usual mismatch you get when you have separate schemas for storage, API I/O, and validation.
-
 ---
 
 ## What's in the database
