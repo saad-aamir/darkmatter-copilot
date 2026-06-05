@@ -28,6 +28,28 @@ This was annoying enough that I built the Co-Pilot. Now Claude knows.
 
 ---
 
+## What it looks like
+
+### Asking about past work
+
+![Claude listing the studio's case studies](docs/screenshots/case-studies-demo.png)
+
+### Adding a lead and reading it back
+
+![Claude adding a lead via natural language](docs/screenshots/add-lead-demo.png)
+
+![Claude listing the lead back as a table](docs/screenshots/list-leads-demo.png)
+
+### Adding a website finding
+
+![Claude listing the lead back as a table](docs/screenshots/log-website-finding-demo.png)
+
+### Drafting a cold outreach email
+
+The Co-Pilot pulls the lead, prior website findings, all case studies, the studio's voice guide, and the outreach structure. Claude composes the email from that context.
+
+![Claude composing a cold outreach email grounded in studio data](docs/screenshots/outreach-email-demo.png)
+
 ## Architecture
 
 ```mermaid
