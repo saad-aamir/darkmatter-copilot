@@ -92,6 +92,21 @@ CREATE TABLE IF NOT EXISTS proposals (
     responded_at            TEXT,
     notes                   TEXT
 );
+
+CREATE TABLE IF NOT EXISTS website_findings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    lead_id INTEGER NOT NULL,
+    finding TEXT NOT NULL,
+    category TEXT NOT NULL,
+    severity TEXT NOT NULL,
+    observed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE CASCADE,
+    CHECK (severity IN ('minor', 'moderate', 'significant')),
+    CHECK (category IN ('design', 'content', 'ia', 'functionality', 'trust_signals', 'mobile', 'seo_visible', 'other'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_findings_lead_id ON website_findings(lead_id);
+
 """
 
 

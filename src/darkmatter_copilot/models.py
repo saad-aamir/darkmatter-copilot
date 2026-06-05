@@ -61,6 +61,23 @@ class ProposalStatus(str, Enum):
     rejected = "rejected"
 
 
+class WebsiteFindingCategory(str, Enum):
+    design = "design"
+    content = "content"
+    ia = "ia"
+    functionality = "functionality"
+    trust_signals = "trust_signals"
+    mobile = "mobile"
+    seo_visible = "seo_visible"
+    other = "other"
+
+
+class WebsiteFindingSeverity(str, Enum):
+    minor = "minor"
+    moderate = "moderate"
+    significant = "significant"
+
+
 # ===== Lead models =====
 
 
@@ -236,5 +253,34 @@ class ProposalRead(ProposalBase):
     responded_at: datetime | None = None
 
     @field_serializer("sent_at", "responded_at", when_used="json")
+    def serialize_datetimes(self, value: datetime | None) -> str | None:
+        return _to_isoformat_utc(value)
+
+
+# ===== Website finding models =====
+
+
+class WebsiteFindingBase(BaseModel):
+    """Shared fields for a website finding."""
+
+    lead_id: int
+    finding: str
+    category: WebsiteFindingCategory
+    severity: WebsiteFindingSeverity
+
+
+class WebsiteFindingCreate(WebsiteFindingBase):
+    """Input shape for creating a new website finding."""
+
+    pass
+
+
+class WebsiteFindingRead(WebsiteFindingBase):
+    """A website finding as returned from the database."""
+
+    id: int
+    observed_at: datetime
+
+    @field_serializer("observed_at", when_used="json")
     def serialize_datetimes(self, value: datetime | None) -> str | None:
         return _to_isoformat_utc(value)
