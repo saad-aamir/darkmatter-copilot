@@ -284,3 +284,14 @@ class WebsiteFindingRead(WebsiteFindingBase):
     @field_serializer("observed_at", when_used="json")
     def serialize_datetimes(self, value: datetime | None) -> str | None:
         return _to_isoformat_utc(value)
+
+
+class OutreachContext(BaseModel):
+    """Structured context for composing a cold outreach email."""
+
+    lead: LeadRead
+    findings: list[WebsiteFindingRead]
+    case_studies: list[CaseStudyRead]
+    voice_guide: str
+    suggested_structure: str
+    angle: str | None = None

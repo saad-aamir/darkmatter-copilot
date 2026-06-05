@@ -1,6 +1,7 @@
 """MCP tools for managing clients"""
 
 from contextlib import closing
+
 from mcp.server.fastmcp import FastMCP
 
 from darkmatter_copilot.db import get_connection
