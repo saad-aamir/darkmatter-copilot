@@ -171,14 +171,6 @@ Restart Claude Desktop. The tools should show up in your chats.
 
 ---
 
-## A note on how this was built
-
-I used Claude (specifically, Claude in a long chat conversation) as a pair programmer throughout. I owned the architecture, the schema design, and most of the design tradeoffs. Claude helped me move quickly through implementation, debug issues, and think through patterns I hadn't worked with before (Pydantic v2, MCP protocol internals).
-
-I don't think this needs to be hidden. Most engineering in 2026 is going to look like this.
-
----
-
 ## License
 
 MIT. See [LICENSE](LICENSE).
